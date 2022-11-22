@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32602.291
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjectionContainer", "DependencyInjectionContainer\DependencyInjectionContainer.csproj", "{BA811784-56E1-4C33-B29D-9F894822CE18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIContainerTests", "DIContainerTests\DIContainerTests.csproj", "{F9387813-7144-4386-BD86-B53130AC2A1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA811784-56E1-4C33-B29D-9F894822CE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA811784-56E1-4C33-B29D-9F894822CE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA811784-56E1-4C33-B29D-9F894822CE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA811784-56E1-4C33-B29D-9F894822CE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9387813-7144-4386-BD86-B53130AC2A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9387813-7144-4386-BD86-B53130AC2A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9387813-7144-4386-BD86-B53130AC2A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9387813-7144-4386-BD86-B53130AC2A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31412818-48F2-4EEE-A678-7EAB510D08D4}
+	EndGlobalSection
+EndGlobal
