@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DependencyInjectionContainer
 {
-    class DependencyNode
+    public class DependencyNode
     {
         public object SingletonImplementation { get; set; }
 
@@ -14,7 +14,7 @@ namespace DependencyInjectionContainer
 
         public Type ImplementationType { get; }
 
-        public bool IsSingleton { get; }
+        public bool IsSingleton { get; set; }
 
         public DependencyNode(Type dependency, Type implementation, bool isSingleton)
         {
