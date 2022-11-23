@@ -8,32 +8,41 @@ namespace DependencyInjectionContainer
 {
     public class DependenciesConfiguration
     {
+        public List<DependencyNode> defaultDependencies = new List<DependencyNode>();
         public Dictionary<object, List<DependencyNode>> dependencies = new Dictionary<object, List<DependencyNode>>();
 
-        public void Register<T1, T2>(object enumVal = null, bool isSingleton = false)
+        public void Register<T1, T2>(object enumVal = default, bool isSingleton = false)
         {
             ConfRegister(typeof(T1), typeof(T2), enumVal, isSingleton);
         }
 
-        public void Register(Type dependency, Type implementation, object enumVal = null, bool isSingleton = false)
+        public void Register(Type dependency, Type implementation, object enumVal = default, bool isSingleton = false)
         {
-            ConfRegister(dependency, implementation, isSingleton);
+            ConfRegister(dependency, implementation, enumVal, isSingleton);
         }
 
         private void ConfRegister(Type dependency, Type implementation, object enumVal, bool isSingleton = false)
         {
-            if (!dependencies.ContainsKey(enumVal))
-                dependencies.Add(enumVal, new List<DependencyNode>());
-            if(dependencies[enumVal].Any( d => d.DependencyType == dependency && d.ImplementationType == implementation))
+            List<DependencyNode> dependencies;
+            if (enumVal == null)
+                dependencies = defaultDependencies;
+            else
             {
-                dependencies[enumVal].Where(d => d.DependencyType == dependency && d.ImplementationType == implementation).First().IsSingleton = isSingleton;
+                if (!this.dependencies.ContainsKey(enumVal))
+                    this.dependencies.Add(enumVal, new List<DependencyNode>());
+                dependencies = this.dependencies[enumVal];
+            }
+            
+            if(dependencies.Any( d => d.DependencyType == dependency && d.ImplementationType == implementation))
+            {
+                dependencies.Where(d => d.DependencyType == dependency && d.ImplementationType == implementation).First().IsSingleton = isSingleton;
             }
             else
             {
                 if (dependency.IsGenericType)
                     dependency = dependency.GetGenericTypeDefinition();
                 var node = new DependencyNode(dependency, implementation, isSingleton);
-                dependencies[enumVal].Add(node);
+                dependencies.Add(node);
             }
         }
     }

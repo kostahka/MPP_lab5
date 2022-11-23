@@ -13,7 +13,7 @@ namespace DependencyInjectionContainer
         {
             config = configuration;
 
-            foreach(var enumDependencies in config.dependencies.Values.ToList())
+            foreach(var enumDependencies in config.dependencies.Values.Append(config.defaultDependencies).ToList())
             {
                 foreach (var dependency in enumDependencies)
                 {
@@ -40,7 +40,7 @@ namespace DependencyInjectionContainer
                 }
             }
         }
-        public T Resolve<T>(object enumVal = null)
+        public T Resolve<T>(object enumVal = default)
         {
             Type type = typeof(T);
 
@@ -53,7 +53,7 @@ namespace DependencyInjectionContainer
             else
                 return (T)(ResolveMany(type, enumVal).FirstOrDefault(r => r != null) ?? GenerateObject(type));
         }
-        private object Resolve(Type type, object enumVal = null)
+        private object Resolve(Type type, object enumVal = default)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
             {
@@ -66,9 +66,18 @@ namespace DependencyInjectionContainer
         }
         private IEnumerable<object> ResolveMany(Type type, object enumVal)
         {
-            if (!config.dependencies.ContainsKey(enumVal))
-                return null;
-            return config.dependencies[enumVal].Select(c =>
+            List<DependencyNode> dependencies;
+            if (enumVal == null)
+                dependencies = config.defaultDependencies;
+            else
+            {
+                if (!config.dependencies.ContainsKey(enumVal))
+                    return null;
+                else
+                    dependencies = config.dependencies[enumVal];
+            }
+            
+            return dependencies.Select(c =>
            {
                if(c.DependencyType == type)
                {
