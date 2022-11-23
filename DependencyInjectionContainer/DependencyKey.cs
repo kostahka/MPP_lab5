@@ -10,7 +10,7 @@ namespace DependencyInjectionContainer
     public class DependencyKey : Attribute
     {
         public object enumVal { get; }
-        DependencyKey(object enumVal)
+        public DependencyKey(object enumVal)
         {
             this.enumVal = enumVal;
         }

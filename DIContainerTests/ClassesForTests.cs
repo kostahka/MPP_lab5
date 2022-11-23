@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DependencyInjectionContainer;
 
 namespace DIContainerTests
 {
@@ -81,6 +82,49 @@ namespace DIContainerTests
         public IRepository RetServ()
         {
             return service.ServiceMethod();
+        }
+    }
+
+    enum Interface1Implementations
+    {
+        First, Second
+    }
+    enum Interface2Implementations
+    {
+        First, Second
+    }
+    enum Interface3Implementations
+    {
+        First, Second
+    }
+    interface IInterface3
+    {
+        int RetInt();
+    }
+    class ClassInt3 : IInterface3
+    {
+        public int RetInt()
+        {
+            return 3;
+        }
+    }
+    class ClassInt4 : IInterface3
+    {
+        public int RetInt()
+        {
+            return 4;
+        }
+    }
+    class ClassInt : IInterface3
+    {
+        IInterface3 interface3;
+        public ClassInt([DependencyKey(Interface3Implementations.Second)]IInterface3 i)
+        {
+            interface3 = i;
+        }
+        public int RetInt()
+        {
+            return interface3.RetInt();
         }
     }
 }
