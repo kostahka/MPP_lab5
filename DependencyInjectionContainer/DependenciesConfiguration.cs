@@ -28,6 +28,8 @@ namespace DependencyInjectionContainer
             }
             else
             {
+                if (dependency.IsGenericType)
+                    dependency = dependency.GetGenericTypeDefinition();
                 var node = new DependencyNode(dependency, implementation, isSingleton);
                 dependencies.Add(node);
             }

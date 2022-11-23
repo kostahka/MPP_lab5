@@ -39,17 +39,28 @@ namespace DependencyInjectionContainer
         }
         public T Resolve<T>()
         {
-            return (T)Resolve(typeof(T));
-        }
+            Type type = typeof(T);
 
+            if (type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
+            {
+                var temp = ResolveMany(type.GetGenericArguments().FirstOrDefault()).Where(r => r != null);
+
+                return (T)typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(type.GetGenericArguments()).Invoke(null, new object[] { temp });
+            }
+            else
+                return (T)(ResolveMany(type).FirstOrDefault(r => r != null) ?? GenerateObject(type));
+        }
         private object Resolve(Type type)
         {
-            if (type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
-                return ResolveMany(type.GetGenericArguments().FirstOrDefault()).Where(r => r != null);
-            else
-                return ResolveMany(type).FirstOrDefault(r => r != null) ?? GenerateObject(type);
-        }
+            if (type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
+            {
+                var temp = ResolveMany(type.GetGenericArguments().FirstOrDefault()).Where(r => r != null);
 
+                return typeof(Enumerable).GetMethod("Cast").MakeGenericMethod(type.GetGenericArguments()).Invoke(null, new object[] { temp });
+            }
+            else
+                return (ResolveMany(type).FirstOrDefault(r => r != null) ?? GenerateObject(type));
+        }
         private IEnumerable<object> ResolveMany(Type type)
         {
             return config.dependencies.Select(c =>
