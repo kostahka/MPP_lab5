@@ -28,7 +28,7 @@ namespace DIContainerTests
         [TestMethod]
         public void TestSingletonClass()
         {
-            config.Register<IInterface1, Class1>(true);
+            config.Register<IInterface1, Class1>(isSingleton: true);
             provider = new DependencyProvider(config);
             var actual = provider.Resolve<IInterface1>();
             var expected = provider.Resolve<IInterface1>();
